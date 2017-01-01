@@ -1,0 +1,187 @@
+@CHARSET "UTF-8";
+
+/*header */
+#banner .header-main{
+    padding-top: 20px;
+  	padding-bottom: 20px;
+}
+#banner #display-controls {
+	margin-top: 19px;
+}
+
+#banner #display-controls a{
+	color: #47407a;
+}
+#banner #display-controls #font-size-large {
+    font-size: 35px;
+} 
+#banner #display-controls #font-size-regular {
+    font-size: 25px;
+}
+#banner #display-controls #font-size-small {
+    font-size: 20px;
+}
+#banner .toggle-contast-span{
+	font-size: 35px;
+}
+
+#banner .subtitle{
+    font-size: 3em;
+    color: #47407a;
+    margin-top: 13px;
+    font-family: lato-black;
+}
+/* navgation */
+
+nav#w0{
+	background-color: #47407a;
+    height: 70px;
+    margin-bottom: 20px;
+}
+
+nav#w0 ul#w1 {
+	margin-top: -1px;
+}
+nav#w0 ul#w1 li{
+    display: table-cell;
+    vertical-align: middle;
+    text-transform: uppercase;
+    height: 70px;
+    padding: 0 9px;
+    position: relative;
+    font-size: 1.8em;	
+	
+}
+
+nav#w0 ul#w1 li a{
+	color: #e4e1db;
+}
+nav#w0 ul#w1 li:hover{
+	background-color: #e4e1db;
+}
+nav#w0 ul#w1 li:hover a{
+	color: #47407a;
+}
+
+
+
+.nav > li > a:hover, .nav > li > a:focus{
+	background-color: inherit;
+}
+
+/*content*/
+
+.breadcrumb{
+	background-color: #e4e1db;
+}
+.btn.btn-primary{
+ 	background-color: #47407a;
+    border-color: #47407a;
+}
+
+/*footer*/
+
+.footer .link-banners img{
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.footer .link-banners a:hover, .footer .link-banners a:focus{
+	text-decoration:none;
+}
+
+.footer .powered-by span {
+    font-size: 1.3em;
+    padding-right: 30px;
+    border-left: 4px solid #47407a;
+    padding-left: 30px;
+    height: 60px;
+    vertical-align: middle;
+    display: table-cell;
+}
+.footer .powered-by .yii a{
+	color: #47407a;
+}
+.footer .powered-by .yii a:hover{
+	color: #47407a;
+}
+
+
+/*contrast */
+
+body.contrast {
+	background-color: #000;
+}
+body.contrast .header-main, body.contrast #banner #display-controls a{
+	color: white !important;
+}
+
+body.contrast nav#w0{
+	background-color: #000;
+	border-top: 2px solid white;
+	border-bottom: 2px solid white;
+}
+
+
+body.contrast nav#w0 ul#w1 li a{
+	color: white;
+}
+body.contrast nav#w0 ul#w1 li:hover{
+	background-color: white;
+}
+body.contrast nav#w0 ul#w1 li:hover a{
+	color: black;
+}
+
+body.contrast .footer{
+    background-color: black;
+    border-top: 2px solid white;
+
+}
+body.contrast p, body.contrast a, body.contrast, body.contrast .file-details .icon-download:before{
+	color: white;
+	
+}
+
+body.contrast .file-title{
+	color: white !important;
+}
+body.contrast .file-image-placeholder{
+	border-color: white !important;
+	
+}
+
+body.contrast .btn-primary, body.contrast .papaya-main-increment, body.contrast .papaya-main-decrement,
+body.contrast .papaya-main-swap, body.contrast .papaya-main-goto-center, body.contrast .papaya-main-goto-origin,  body.contrast .form-control{
+    color: white;
+    background-color: black;
+    border-color: white;
+}
+body.contrast .breadcrumb{
+	color: white;
+    background-color: black;
+    border: 2px solid white;
+}
+body.contrast .breadcrumb .active{
+	color: white;
+}
+
+
+body.contrast .btn-primary:hover {
+    color: black;
+    background-color: white;
+    border-color: black;
+}
+body.contrast .footer .powered-by span{
+	border-color: white;
+	
+}
+
+body.contrast .footer .powered-by .yii a{
+	color: white;
+}
+body.contrast .footer .powered-by .yii a:hover{
+	color: white;
+}
+
+

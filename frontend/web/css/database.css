@@ -1,0 +1,53 @@
+.site-database ul li{
+	list-style: none;
+}
+.site-database .file-image-preview{
+	height: 250px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.site-database .file-image-preview.file-image-placeholder{
+    background: url(../images/logo-opaque.png) no-repeat;
+	background-position: center;
+	border: 1px solid #47407a;
+}
+
+.site-database .file-entry{
+	margin-top:20px;
+	position: relative;
+}
+.site-database .file-data{
+	position: static;
+	height: 210px;
+    overflow: hidden;
+}
+.site-database .file-data .file-title, .file-details .file-title {
+	text-transform: uppercase;
+	font-family: lato-black;
+	color: #47407a;
+	font-size: 2em;
+}
+.site-database .file-description, .site-database .file-patient {
+	 font-size: 1.5em;
+}
+.site-database .see-more-button{
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+}
+
+.file-details .papaya-viewer{
+	margin-top: 25px;
+}
+.file-details .icon-download {
+    text-decoration: none;
+}
+
+.file-details .icon-download:before {
+    font-size: 72px;
+    color: #47407a;
+}
+
+
+   
