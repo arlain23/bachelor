@@ -12,10 +12,12 @@ use yii\web\Request;
 use yii\web\Response;
 use common\models\LoginForm;
 use common\models\FileEntry;
+use common\models\FileEntryCategory;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\db\Query;
 
 /**
  * Site controller
@@ -146,20 +148,63 @@ class SiteController extends Controller
     }
     
     /**
-     * Displays datbase page.
+     * Displays database page.
      *
      * @return mixed
      */
     public function actionDatabase()
     {
     	
-    	$query = FileEntry::find()->orderBy('createDate');
-    	$countQuery = clone $query;
-    	$pagination = new Pagination([
-    		'defaultPageSize' => 10,
-    		'totalCount' => $countQuery->count(),
-    	]);
     	
+    	/* Searcher */
+    	
+
+    	if (isset($_POST['search-field'])){
+    		$searchString = $_POST['search-field'];		
+    		$query = FileEntry::find();
+    		$query->andFilterWhere(['like', 'title', $searchString])->orderBy('createDate');
+    		$countQuery = clone $query;
+    		$pagination = new Pagination([
+    				'defaultPageSize' => 10,
+    				'totalCount' => $countQuery->count(),
+    		]);
+    		
+    	}
+    	elseif (isset($_POST['select-categories'])){
+    		$categories = $_POST['select-categories'];
+    		$dateFrom = $_POST['dateFrom'];
+    		$dateTill = $_POST['dateTill'];
+    		
+    		$query = FileEntry::find();
+    		
+    		if ($categories != '0'){
+    					$query->innerJoin("fileEntryCategory","fileEntry.fileEntryID = fileEntryCategory.fileEntryID")	
+    			->where("fileEntryCategory.categoryID = $categories");
+
+    			
+    		}
+    		if ($dateFrom != ''){
+    			$query->where("createDate >= $dateFrom");
+    		}
+    		if ($dateTill != ''){
+    			$query->andFilterWhere('<=','createDate',$dateTill);
+    		}
+    		
+    		$countQuery = clone $query;
+    		$pagination = new Pagination([
+    				'defaultPageSize' => 10,
+    				'totalCount' => $countQuery->count(),
+    		]);
+    	}
+    	else{
+    		$query = FileEntry::find()->orderBy('createDate');
+    		$countQuery = clone $query;
+    		$pagination = new Pagination([
+    				'defaultPageSize' => 10,
+    				'totalCount' => $countQuery->count(),
+    		]);
+    	}
+    			
     	$fileEntries = $query->offset($pagination->offset)->limit($pagination->limit)->all();
     	
     	
@@ -168,6 +213,53 @@ class SiteController extends Controller
     			'pagination' => $pagination,
     	]);
     }   
+    
+    /**
+     * Downloads zipped files from database
+     *
+     * @return zip file
+     */
+
+    //TODO: make it quickers
+    public function actionDownloadZippedFiles(){
+    	$files = [];
+    	$index = 0;
+    	$rootPath = Yii::getAlias('@frontend') . '/web/images/uploads/' ;
+    	if(!empty($_POST['downloadCheck'])) {
+    		foreach($_POST['downloadCheck'] as $fileId) {
+    			$fileEntry = FileEntry::findOne($fileId);
+    			$path = $rootPath . $fileEntry->fileURL;
+    			$files[$index] = $path;
+				$index = $index + 1;
+    		}
+    	}
+    	Yii::info(count($files));
+		if(count($files) === 0){
+			return $this->actionDatabase();
+		}
+    	unset($_POST['downloadCheck']);
+    	$zip=new \ZipArchive();
+    	$timestamp = (new \DateTime())->getTimestamp();
+    	
+    	$destination=Yii::getAlias('@frontend') . '/web/tmp/' . $timestamp . 'eletelDatabase.zip';
+    	if($zip->open($destination, \ZipArchive::CREATE) === true) {
+    		foreach ($files as $fl) {
+    			$relativePath = substr($fl, strlen($rootPath));
+    			$zip->addFile($fl, $relativePath);
+    		}
+    		$zip->close();	
+    		return Yii::$app->response->sendFile($destination, 'eletelDatabase.zip')->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
+    			unlink($event->data);
+    		}, $destination);
+    		/*return Yii::$app->response->sendFile($destination, 'eletelDatabase.zip');*/
+    		
+    	}
+    	else{
+    		$zip-> close();
+    	}
+    	$this->redirect('actionDatabase');
+
+    }
     
     /**
      * Displays details page.
@@ -187,7 +279,7 @@ class SiteController extends Controller
     /**
      * Downloads one file.
      *
-     * @return mixed
+     * @return the file
      */
     public function actionDownloadFile()
     {

@@ -1,0 +1,87 @@
+@CHARSET "UTF-8";
+
+/* navgation */
+
+#myNav nav{
+	background-color: #47407a;
+    height: 70px;
+    margin-bottom: 20px;
+}
+
+#myNav nav ul {
+	margin-top: -1px;
+}
+#myNav nav ul li{
+    display: table-cell;
+    vertical-align: middle;
+    text-transform: uppercase;
+    height: 70px;
+    padding: 0 9px;
+    position: relative;
+    font-size: 1.8em;	
+	
+}
+
+#myNav nav ul li a{
+	color: #e4e1db;
+}
+#myNav nav ul li:hover{
+	background-color: #e4e1db;
+}
+#myNav nav ul li:hover a{
+	color: #47407a;
+}
+
+
+
+#myNav nav > li > a:hover, .nav > li > a:focus{
+	background-color: inherit;
+}
+
+
+#myNav nav ul .li-logout{
+    position: absolute;
+    top: -1px;
+    right: 5px;
+}
+#myNav nav ul .li-logout form{
+    height: 100%;
+}
+nav ul .li-logout:hover .btn-logout{
+	text-decoration: underline;
+}
+#myNav nav ul .li-logout:hover{
+	background-color: inherit;
+}
+#myNav nav ul .btn-logout{
+	padding: 10px 15px;
+    color: #e4e1db;
+    font-size: 0.8em;
+    margin-top: 8px;
+}
+/*content*/
+
+.breadcrumb{
+	background-color: #e4e1db;
+}
+.btn.btn-primary{
+ 	background-color: #47407a;
+    border-color: #47407a;
+}
+.img-responsive-inverse{
+	max-height: 100%;
+	width: auto;	
+}
+
+/*footer*/
+
+.footer {
+    background-color: #e4e1db;
+    border-top: 1px solid #ddd;
+}
+.footer .yii a{
+	color: #47407a;
+}
+.footer .yii a:hover{
+	color: #47407a;
+}

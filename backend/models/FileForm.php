@@ -15,12 +15,15 @@ class FileForm extends \yii\base\Model
 	public $remoteUrl;
 	public $remotePreviewUrl;
 	public $content;
+	public $categories;
+	public $size;
+
 	
 	public function rules()
 	{
 		return [
 				// define validation rules here
-				[['title', 'description','patient','content'], 'required'],
+				[['title', 'description','patient','content','categories'], 'required'],
 				[['file'], 'file', 'skipOnEmpty' => false, 'checkExtensionByMimeType'=>false, 'extensions' => 'nii, npy, vtk'],
 				[['preview'], 'file','extensions' => 'png, jpg, bmp, gif'],
 				[['title','patient'],'validateLength'],
@@ -36,9 +39,10 @@ class FileForm extends \yii\base\Model
 	
 	public function upload()
 	{
-		/*TODO add size */
 		if ($this->validate()) {
 			$this->extension = $this->file->extension;
+			$tmpsize =$this->file->size / 1024.0 / 1024.0;
+			$this->size = round($tmpsize,3);
 			
 			// upload files via ftp //
 			/*

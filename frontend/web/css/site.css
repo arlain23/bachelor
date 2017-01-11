@@ -31,9 +31,11 @@ body.font-size-large {
 		font-family: $main-font;
 	}
 	
-	
-}
 
+}
+a:hover, a:focus{
+	color: #47407a;
+}
 
 .wrap {
     min-height: 100%;

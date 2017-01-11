@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 use backend\models\FileForm;
 use common\models\FileEntry;
+use common\models\FileEntryCategory;
 use yii\web\UploadedFile;
 use yii\db\Expression;
 
@@ -26,11 +27,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'index'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout','uploader'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -60,48 +61,72 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return mixed
      */
     public function actionIndex()
     {
-    	$model = new FileForm();   
-    	
-    	if (Yii::$app->request->isPost) {
-    			$model->load(Yii::$app->request->post());
-    			
-    			
-    			$model->file = UploadedFile::getInstance($model, 'file');
-    			$model->preview = UploadedFile::getInstance($model, 'preview');
-    			if ($model->upload()) {
-    				// file is uploaded successfully
-    				
-    				$fileEntry = new FileEntry();
-    				$fileEntry->title = $model->title;
-    				$fileEntry->description = $model->description;
-    				$fileEntry->createDate = new Expression('NOW()');
-    				/*TODO author to patient 
-    				 * add file size 
-    				 * add patient data 
-    				 * add field for ckeditor
-    				 * */
-    				$fileEntry->patient = $model->patient;
-    				$fileEntry->fileURL = $model->remoteUrl;
-    				$fileEntry->gifURL = $model->remotePreviewUrl;
-    				$fileEntry->fileExtension = $model->extension;
-    				$fileEntry->save();  
-    				
-    				return $this->render('success', [
-	        		'model' => $model,
-	        		'message' => "first",
-        ]);
-    		}
-    	}
-    	return $this->render('index', [
-	        		'model' => $model,
-	        		'message' => "first",
-        ]);
+    	return $this->render('index');
         
     }
+    
+    /**
+     * Displays uploader page.
+     *
+     * @return mixed
+     */
+    public function actionUploader()
+    {
+    	$model = new FileForm();
+    	 
+    	if (Yii::$app->request->isPost) {
+    		$model->load(Yii::$app->request->post());
+    		 
+    		$model->file = UploadedFile::getInstance($model, 'file');
+    		$model->preview = UploadedFile::getInstance($model, 'preview');
+    		if ($model->upload()) {
+    			// file is uploaded successfully
+    
+    			$fileEntry = new FileEntry();
+    			$fileEntry->title = $model->title;
+    			$fileEntry->description = $model->description;
+    			$fileEntry->createDate = new Expression('NOW()');
+    			$fileEntry->patient = $model->patient;
+    			$fileEntry->fileURL = $model->remoteUrl;
+    			$fileEntry->gifURL = $model->remotePreviewUrl;
+    			$fileEntry->fileExtension = $model->extension;
+    			$fileEntry->fileSize = $model->size;
+    			Yii::info($model->content);
+    			$fileEntry->content = $model->content;
+       			$fileEntry->save();
+
+       			$cateogriesArray = \preg_split("/[\s,]+/",$model->categories);
+    			$fileID = $fileEntry->fileEntryId;
+    			foreach ($cateogriesArray as &$catId){
+    				if ($catId !== " " && $catId !== "" && $catId != 0){
+	    				$fileEntryFileCategory = new FileEntryCategory();
+	    				$fileEntryFileCategory->categoryID = $catId;
+	    				Yii::info($catId);
+	    				$fileEntryFileCategory->fileEntryID = $fileID;
+	    				Yii::info("saved");
+	    				Yii::info($fileID);
+	    				$fileEntryFileCategory->save();
+	    			}
+    			}
+
+    
+    			return $this->render('success', [
+    					'model' => $model,
+    					'message' => "first",
+    			]);
+    		}
+    	}
+    	return $this->render('uploader', [
+    			'model' => $model,
+    			'message' => "first",
+    	]);
+    
+    }
+    
 
     /**
      * Login action.

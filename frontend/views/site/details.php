@@ -21,25 +21,28 @@ $this->params['breadcrumbs'][] = $this->title;
 	    <p class="file-title">
 	    	<?= Html::encode($fileEntry->title) ?>
 	    </p>
-	    <p class="file-metadata text-muted">
-	    	<?php 
-	    	$date = new DateTime($fileEntry->createDate);
-	    	echo $date->format('d.m.Y');
-	    	//echo $fe->fileSize;
-	    	echo "  (" . $fileEntry->fileExtension . ")";
+	    <div class="image-preview">
+	     	<img class="img-responsive lazy" data-original="<?= '/images/uploads/' . $fileEntry->gifURL ?>">
+	    </div>
+	   <p class="file-date text-muted">
+	   	   <?php 
+	    		$date = new DateTime($fileEntry->createDate);
+	    		echo $date->format('d.m.Y');
 	    	?>
-		</p>
 	   	<p class="file-patient lead"><?= Html::encode("{$fileEntry->patient}")?> </p>
 	   	<p class="file-description lead">
 	    	<?= Html::encode("{$fileEntry->description}")?>
 	    </p>
 	   <div class="file-content">
-	    	<?= /*Html::encode("{$fileEntry->content}")*/ "TODO" ?>
+	    	<?= $fileEntry->content ?>
 	   </div>
    </div>
    <div class="col-md-1 col-sm-1 col-xs-1">
    <?= Html::a('', ['download-file', 'fileId' => $fileEntry->fileEntryId], ['class' => 'fa fa-download icon-download']) ?>		
    </div>
+</div>
+<div class="file-metadata text-muted">
+	<p> <?=$fileEntry->fileSize . "MB  (" . $fileEntry->fileExtension . ")"?></p>
 </div>
 <div class="papaya papaya-viewer" data-params="params"></div>
 

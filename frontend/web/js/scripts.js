@@ -54,4 +54,30 @@ function changeFontSize(size){
 
 
 
+$(function(){
+	$('.site-database .filter-column .publishDateFrom ').Zebra_DatePicker({
+	  pair: $('.site-database .filter-column .publishDateTill'),
+	});
+	$('.site-database .filter-column .publishDateTill').Zebra_DatePicker({
+	  direction: 1,
+	});
+	
+	
+	$('.site-database .filter-column select').selectBox({
+	     mobile: true,
+	     loopOptions: true,
+	     hideOnWindowScroll: false, 
+	 });
+	 $('.site-database .filter-column select').selectBox('value', 0);
+	 
+	 $('.site-database .filter-column select').selectBox().change(function () {
+		 $('.site-database .filter-column .select-categories-hidden').val($(this).val());
+	});
+	 
+}); 
+
+
+
+
+
 

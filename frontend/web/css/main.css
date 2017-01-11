@@ -78,6 +78,10 @@ nav#w0 ul#w1 li:hover a{
  	background-color: #47407a;
     border-color: #47407a;
 }
+.img-responsive-inverse{
+	max-height: 100%;
+	width: auto;	
+}
 
 /*footer*/
 
@@ -184,4 +188,117 @@ body.contrast .footer .powered-by .yii a:hover{
 	color: white;
 }
 
+body.contrast .site-database .file-entry{
+	border-bottom: 5px solid white;
+}
 
+body.contrast .pagination > li > a, body.contrast  .pagination > li > span{
+	background-color:black;
+	color:white;
+}
+body.contrast .pagination > .active > a, body.contrast .pagination > .active > span{
+    border-color: #9c9292;
+}
+
+body.contrast .pagination > .active > a, body.contrast .pagination > .active > span, body.contrast .pagination > .active > a:hover{
+	background-color: #9c9292;
+}
+body.contrast .pagination > li > a:hover, body.contrast .pagination > li > span:hover, body.contrast .pagination > li > a:focus, body.contrast .pagination > li > span:focus{
+    color: white;
+    background-color: #9c9292;
+    border-color: #9c9292;
+}
+
+
+
+body.contrast .pagination > .disabled > span:hover{
+	background-color: inherit;
+	color: inherit;
+    border-color: inherit;
+    
+}
+body.contrast .site-database .download-checkbox input[type="checkbox"]{
+	border-color: white;
+}
+body.contrast .site-database .database-ul{
+	border-top-color: white;
+}
+
+body.contrast  .site-database .filter-column, body.contrast .site-database .database-search {
+    border: 5px solid white;
+    background-color: black;
+}
+
+
+body.contrast .search-icon{
+	color:white;
+}
+
+body.contrast  .site-database .database-title {
+    color: white;
+    border-bottom: 5px solid white;
+}
+body.contrast .site-database .filter-column label, body.contrast .selectBox-dropdown .selectBox-arrow:before {
+	color: white;
+}
+body.contrast .selectBox-dropdown, body.contrast .site-database .search-input-form input[type="text"]{
+    border: solid 1px white;
+    background: none !important;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+    
+body.contrast .selectBox-options {
+    background-color: inherit;
+}
+body.contrast .selectBox-options LI.selectBox-selected A {
+    background-color: inherit;
+    color: white;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    font-weight: 600;
+}
+body.contrast .selectBox-options LI.selectBox-hover A {
+    background-color: inherit;
+    font-weight: 600;
+}
+
+body.contrast .Zebra_DatePicker_Icon_Wrapper {
+    border: 2px solid white;
+    background: black !important;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+body.contrast .Zebra_DatePicker_Icon::before {
+    color: white;
+}
+body.contrast .Zebra_DatePicker_Icon{
+	background-color: black;
+}
+
+body.contrast .Zebra_DatePicker{
+	background-color: black;
+	border: 1px solid white;
+}
+
+body.contrast .Zebra_DatePicker .dp_daypicker td, body.contrast .Zebra_DatePicker .dp_daypicker th, body.contrast .Zebra_DatePicker .dp_monthpicker td, body.contrast  .Zebra_DatePicker .dp_yearpicker td {
+    border-color: white;
+}
+body.contrast .Zebra_DatePicker .dp_daypicker th, body.contrast  .Zebra_DatePicker td.dp_hover, body.contrast .Zebra_DatePicker td.dp_selected {
+    background-color: black;
+    color: white;
+}
+body.contrast .Zebra_DatePicker td.dp_not_in_month {
+    background: black;
+    color: white;
+}
+body.contrast .Zebra_DatePicker .dp_daypicker td, body.contrast .Zebra_DatePicker .dp_daypicker th, body.contrast .Zebra_DatePicker .dp_monthpicker td, body.contrast .Zebra_DatePicker .dp_yearpicker td{
+    background: black;
+    color: white;
+}
+body.contrast .Zebra_DatePicker .dp_disabled{
+	text-decoration: line-through;
+}

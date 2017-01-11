@@ -12,17 +12,21 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
     	'css/papaya.css',
+    	'css/default.css',
+    	'css/jquery.selectBox.css',
     	'css/database.css',
     	'css/main.css',
+    	'css/site.css',
     ];
     public $js = [
     	'js/papaya.js',
     	'js/jquery.dotdotdot.min.js',
     	'js/jquery.lazyload.min.js',
-    	'js/scripts.js',
     	'js/jquery.cookie.js',
+    	'js/zebra_datepicker.js', 
+    	'js/jquery.selectBox.js',
+    	'js/scripts.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

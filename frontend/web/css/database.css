@@ -1,6 +1,10 @@
 .site-database ul li{
 	list-style: none;
 }
+.site-database .database-ul{
+    border-top: 5px double #47407a;
+	margin-top: 20px;
+}
 .site-database .file-image-preview{
 	height: 250px;
     overflow: hidden;
@@ -15,7 +19,9 @@
 
 .site-database .file-entry{
 	margin-top:20px;
+	padding-bottom: 20px;
 	position: relative;
+    border-bottom: 5px solid #47407a;
 }
 .site-database .file-data{
 	position: static;
@@ -34,9 +40,231 @@
 .site-database .see-more-button{
     position: absolute;
     right: 15px;
-    bottom: 0;
+    bottom: 15px;
+}
+.site-database .download-checkbox{
+    position: absolute;
+    left: 5px;
+    top: 5px;
 }
 
+ .site-database .download-checkbox input[type="checkbox"]{
+    width:20px;
+    height:20px;
+    
+    /*styles */   
+    -webkit-appearance: none;
+    background-color: #e4e1db;
+    border: 3px solid #47407a;
+    padding: 9px;
+    display: inline-block;
+    position: relative;
+    
+ }
+ 
+ 
+ .site-database .download-checkbox input[type="checkbox"]:active, 
+ .site-database .download-checkbox input[type="checkbox"]:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+ .site-database .download-checkbox input[type="checkbox"]:checked {
+	background-color: #47407a;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #e4e1db;
+}
+
+.site-database .download-checkbox input[type="checkbox"]:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	font-weight: 600;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+}
+
+.site-database .download-button {
+	text-align: right;
+    font-size: 1.5em;
+    margin-top: -10px;
+    padding-bottom: 10px;
+}
+
+.site-database .download-button .btn{
+	margin-left: auto;
+}
+.site-database .download-button .btn:before{
+	margin-right: 10px;
+}
+
+
+.site-database .data-column{
+	margin-top: -45px;
+}
+
+.site-database .filter-column{
+    border: 5px solid #47407a;
+    padding: 25px 15px 50px 15px;
+    background-color: #e4e1db;
+}
+.site-database .database-search {
+    margin-top: 10px;
+    border: 5px solid #47407a;
+    border-bottom: none;
+    padding: 25px 15px 50px 15px;
+    background-color: #e4e1db;
+}
+.site-database .database-search input[type="text"]{
+	width: 100%;
+	padding: 5px;
+    border: 2px solid #47407a;
+    margin-bottom: 20px;
+    background: #F2F2F2;
+    background: -moz-linear-gradient(top, #F8F8F8 1%, #E1E1E1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #F8F8F8), color-stop(100%, #E1E1E1));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F8F8F8', endColorstr='#E1E1E1', GradientType=0);
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+
+}
+.site-database .search-input-form{
+	position: relative;
+	margin-top: 30px;
+}
+.site-database .search-icon{
+	top: 6px;
+    right: 5px;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 20px;
+    color: #47407a;
+    position: absolute;
+	
+}
+.site-database .search-icon:before{
+    content: "\f002";
+}
+
+
+
+.site-database .filter-column .database-title, .site-database .database-search .database-title{
+    text-transform: uppercase;
+    font-family: lato-black;
+    color: #47407a;
+    font-size: 2em;
+    border-bottom: 5px solid #47407a;
+    padding-bottom: 12px;
+    text-align: center;
+}
+
+
+.site-database .filter-column label{
+	color: #47407a;
+}
+
+.site-database .filter-column select{
+	background-color: inherit;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: 2px solid #47407a;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.site-database .filter-submit-button{
+    float: right;
+    padding: 6px 20px;
+}
+.selectBox-dropdown .selectBox-arrow{
+    font: normal normal normal 14px/1 FontAwesome;
+    background: none !important;
+	border-left: none !important;
+}
+.selectBox-dropdown .selectBox-arrow:before{
+    content: "\f107";
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 25px;
+    color: #47407a;
+}
+.selectBox-options{
+	background-color: #e4e1db;
+	font-size: 1.2em;
+}
+.selectBox-options LI.selectBox-selected A{
+	background-color: #47407a;	
+	color: #e4e1db;
+}
+.selectBox-options A{
+	color: #47407a;
+}
+
+.selectBox-options a:hover{
+	text-decoration: none;
+}
+.selectBox-dropdown{
+    background-color: inherit;
+    padding: 2px 20px;
+    font-size: 1.2em;
+    border: 2px solid #47407a;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 0px;
+}
+.Zebra_DatePicker_Icon_Wrapper{
+	 width: 100%;
+	 border: 2px solid #47407a;
+     margin-bottom: 20px;
+    background: #F2F2F2;
+    background: -moz-linear-gradient(top, #F8F8F8 1%, #E1E1E1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #F8F8F8), color-stop(100%, #E1E1E1));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F8F8F8', endColorstr='#E1E1E1', GradientType=0);
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+}
+.Zebra_DatePicker_Icon_Wrapper input{
+	background: inherit;
+    border: none;
+    padding: 5px 5px 5px 27px ;
+}
+
+
+.Zebra_DatePicker_Icon_Wrapper input{
+    width: 85%;
+    display: inline-block;
+}
+
+.Zebra_DatePicker_Icon::before{
+	content: "\f073";
+	 font-size: 20px;
+	 color: #47407a;
+	
+}
+.Zebra_DatePicker_Icon{
+	background: inherit;
+    font: normal normal normal 14px/1 FontAwesome;
+    display: inline-block;
+    border: none;
+}
+
+.Zebra_DatePicker .dp_daypicker th, .Zebra_DatePicker td.dp_hover, .Zebra_DatePicker td.dp_selected{
+	 background-color: #47407a;
+	 color:#e4e1db;
+}
+.Zebra_DatePicker td.dp_current{
+	color:#47407a;
+	font-weight: 600;
+}
+.Zebra_DatePicker td.dp_current:hover{
+	color:#e4e1db;
+}
+.Zebra_DatePicker .dp_daypicker td, .Zebra_DatePicker .dp_daypicker th, .Zebra_DatePicker .dp_monthpicker td, .Zebra_DatePicker .dp_yearpicker td{
+	border-color: #47407a;
+}
+/* file details*/
 .file-details .papaya-viewer{
 	margin-top: 25px;
 }
@@ -48,6 +276,40 @@
     font-size: 72px;
     color: #47407a;
 }
+
+.file-details .image-preview{
+	max-height: 400px;
+	overflow: hidden;
+}
+.file-details .image-preview img{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.file-metadata{
+	margin-left: 8px;
+}
+
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color: #47407a;
+    border-color: #47407a;
+    color: #e4e1db;
+}
+.pagination > li > a, .pagination > li > span{
+	color: #47407a;
+}
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus{
+	color: #47407a;
+	background-color: #e4e1db;
+}
+
+
+
+
+
+
 
 
    

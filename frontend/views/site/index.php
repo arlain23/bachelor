@@ -9,9 +9,8 @@ $this->title = 'Aneta Andrzejewska';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Awesome!</h1>
+        <h1>Frontend!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
 
     </div>
 
