@@ -89,9 +89,12 @@ class FileEntryController extends Controller
 			
 			Yii::info($model->categories);
 			$cateogriesArray = \preg_split("/[\s,]+/",$model->categories);
-			Yii::info($cateogriesArray);
 			$fileID = $model->fileEntryId;
-			Yii::info($fileID);
+			$fileEntries = FileEntryCategory::find()->where(["fileEntryID"=>$fileID])->all();
+			foreach ($fileEntries as &$fe){
+				$fe->delete();
+			}
+			
 			foreach ($cateogriesArray as &$catId){
 				if ($catId !== " " && $catId !== "" && $catId != 0){
 					$fileEntryFileCategory = new FileEntryCategory();
@@ -125,6 +128,15 @@ class FileEntryController extends Controller
 		foreach ($fileEntryCatModel as &$fecM){
 			$fecM->delete();
 		}
+		
+		$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $model->fileURL;
+		unlink($path);
+		if ($model->gifURL != '' && $model->gifURL != null){
+			$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $model->gifURL;
+			unlink($path);
+		}
+
+		
 		$this->findModel($id)->delete();
 	
 

@@ -42,17 +42,19 @@ AppAsset::register($this);
 	    	['label' => 'Categories', 'url' => ['/file-category/index']],
 	    ];
 	    if (Yii::$app->user->isGuest) {
-	        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+	    	$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 	    } else {
-	        $menuItems[] = '<li class="li-logout">'
-	            . Html::beginForm(['/site/logout'], 'post')
-	            . Html::submitButton(
-	                'Logout (' . Yii::$app->user->identity->username . ')',
-	                ['class' => 'btn btn-link logout btn-logout']
-	            )
-	            . Html::endForm()
-	            . '</li>';
+	    	$menuItems[] = ['label' => 'Create new user', 'url' => ['/site/signup']];
+	    	$menuItems[] = '<li class="li-logout">'
+	    			. Html::beginForm(['/site/logout'], 'post')
+	    			. Html::submitButton(
+	    					'Logout (' . Yii::$app->user->identity->username . ')',
+	    					['class' => 'btn btn-link logout btn-logout']
+	    					)
+	    					. Html::endForm()
+	    					. '</li>';
 	    }
+	    
 	    echo Nav::widget([
 	        'options' => ['class' => 'navbar-custom-ul'],
 	        'items' => $menuItems,

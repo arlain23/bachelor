@@ -154,63 +154,87 @@ class SiteController extends Controller
      */
     public function actionDatabase()
     {
-    	
-    	
-    	/* Searcher */
-    	
-
-    	if (isset($_POST['search-field'])){
-    		$searchString = $_POST['search-field'];		
-    		$query = FileEntry::find();
-    		$query->andFilterWhere(['like', 'title', $searchString])->orderBy('createDate');
-    		$countQuery = clone $query;
-    		$pagination = new Pagination([
-    				'defaultPageSize' => 10,
-    				'totalCount' => $countQuery->count(),
-    		]);
-    		
+    	//needed for sorting  	
+    	$selectCategories = '';
+    	$dateFrom = '';
+    	$dateTill = '';
+    	$searchField = '';
+    	//sorting
+    	if (isset($_POST['sort-radio'])){
+    		$sortType = $_POST['sort-radio'];
+    		$asc = $_POST['sort-direction'];
     	}
-    	elseif (isset($_POST['select-categories'])){
-    		$categories = $_POST['select-categories'];
+    	else{
+    		$sortType = "createDate";
+    		$asc = 1;
+    	}
+    	
+    	
+    	if (Yii::$app->user->isGuest){
+    		$query = FileEntry::find()->where(["isPrivate"=>0]);
+    	}
+    	else{
+    		$query = FileEntry::find();
+    	}
+    	
+    	
+    	if (isset($_POST['search-field'])){
+    		$searchField = $_POST['search-field'];	
+    		if ($searchField != ''){
+    			$query->andFilterWhere(['like', 'LOWER(title)', strtolower($searchField)]);  
+    			$query->orFilterWhere(['like', 'LOWER(description)', strtolower($searchField)]);
+    		}
+    	}
+    	
+    	if (isset($_POST['select-categories'])){
+			$selectCategories = $_POST['select-categories'];
     		$dateFrom = $_POST['dateFrom'];
     		$dateTill = $_POST['dateTill'];
     		
-    		$query = FileEntry::find();
-    		
-    		if ($categories != '0'){
+    		if ($selectCategories != '0' && $selectCategories != ''){
     					$query->innerJoin("fileEntryCategory","fileEntry.fileEntryID = fileEntryCategory.fileEntryID")	
-    			->where("fileEntryCategory.categoryID = $categories");
+    			->andWhere("fileEntryCategory.categoryID = $selectCategories");
 
     			
     		}
     		if ($dateFrom != ''){
-    			$query->where("createDate >= $dateFrom");
+    			$query->andWhere("createDate >= '$dateFrom'");
     		}
     		if ($dateTill != ''){
-    			$query->andFilterWhere('<=','createDate',$dateTill);
+    			$query->andWhere("createDate <= '$dateTill'");
     		}
-    		
-    		$countQuery = clone $query;
-    		$pagination = new Pagination([
-    				'defaultPageSize' => 10,
-    				'totalCount' => $countQuery->count(),
-    		]);
+    	}
+
+    	//sorting
+    	
+    	
+    	if ($asc == 1){
+    		$query->orderBy(["TRIM($sortType)" => SORT_ASC]);	
     	}
     	else{
-    		$query = FileEntry::find()->orderBy('createDate');
-    		$countQuery = clone $query;
-    		$pagination = new Pagination([
-    				'defaultPageSize' => 10,
-    				'totalCount' => $countQuery->count(),
-    		]);
+    		$query->orderBy(["TRIM($sortType)" => SORT_DESC]);
     	}
-    			
+    	
+
+    	
+    	$countQuery = clone $query;
+    	$pagination = new Pagination([
+    			'defaultPageSize' => 9,
+    			'totalCount' => $countQuery->count(),
+    	]);
     	$fileEntries = $query->offset($pagination->offset)->limit($pagination->limit)->all();
     	
     	
     	return $this->render('database', [
     			'fileEntries' => $fileEntries,
     			'pagination' => $pagination,
+    			'totalCount' => $countQuery->count(),
+    			'sortType' => $sortType,
+    			'asc' => $asc,
+    			'selectCategories' => $selectCategories,
+    			'dateFrom' => $dateFrom,
+    			'dateTill' => $dateTill,
+    			'searchField' => $searchField,   			
     	]);
     }   
     
@@ -220,7 +244,7 @@ class SiteController extends Controller
      * @return zip file
      */
 
-    //TODO: make it quickers
+    //TODO: make it quicker
     public function actionDownloadZippedFiles(){
     	$files = [];
     	$index = 0;
@@ -238,6 +262,7 @@ class SiteController extends Controller
 			return $this->actionDatabase();
 		}
     	unset($_POST['downloadCheck']);
+    	/*
     	$zip=new \ZipArchive();
     	$timestamp = (new \DateTime())->getTimestamp();
     	
@@ -245,18 +270,30 @@ class SiteController extends Controller
     	if($zip->open($destination, \ZipArchive::CREATE) === true) {
     		foreach ($files as $fl) {
     			$relativePath = substr($fl, strlen($rootPath));
-    			$zip->addFile($fl, $relativePath);
+    			$zip->addFromString($relativePath, file_get_contents($fl));
+    			//$zip->addFile($fl, $relativePath);
     		}
     		$zip->close();	
     		return Yii::$app->response->sendFile($destination, 'eletelDatabase.zip')->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
     			unlink($event->data);
     		}, $destination);
-    		/*return Yii::$app->response->sendFile($destination, 'eletelDatabase.zip');*/
     		
     	}
     	else{
     		$zip-> close();
+    	}*/
+    	$timestamp = (new \DateTime())->getTimestamp();
+    	$destination=Yii::getAlias('@frontend') . '/web/tmp/' . $timestamp . 'eletelDatabase.zip';
+    	$zip = new \ZipStream\ZipStream("eletelDatabase.zip");
+
+
+    	foreach ($files as $fl) {
+    		$relativePath = substr($fl, strlen($rootPath));
+    		$zip->addFileFromPath($relativePath,$fl);
+    		Yii::info("added");
     	}
+    	
+    	$zip->finish();
     	$this->redirect('actionDatabase');
 
     }
@@ -270,10 +307,33 @@ class SiteController extends Controller
     {
     	$fileId = $_GET['fileId'];
     	$fileEntry = FileEntry::findOne($fileId);
-    	$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $fileEntry->fileURL;
-    	
+    	$isPrivate = $fileEntry->isPrivate;
+    	$isPapayable = false;
+    	$isVTK = false;
+    	$extension = $fileEntry->fileExtension;
+
+    	$acceptedFormats = [
+    		"nii",
+    		"nii.gz",
+    		"surf.gii",
+    		'surf',
+    	];
+    	if (in_array($extension, $acceptedFormats)) {
+    		$isPapayable = true;
+    	};
+    	/*VTK */
+    	$acceptedFormats2 = [
+    			"stl",
+				"vtk",
+    	];
+    	if (in_array($extension, $acceptedFormats2)) {
+    		$isVTK = true;
+    	};
     	return $this->render('details',[
     			'fileEntry' => $fileEntry,
+    			'isPapayable' => $isPapayable,
+    			'isVTK' => $isVTK,
+    			'isPrivate' => $isPrivate,
     	]);
     }
     /**
@@ -290,7 +350,8 @@ class SiteController extends Controller
     	if (!is_file($path)) {
     		throw new \yii\web\NotFoundHttpException('The file does not exists.');
     	}
-    	return Yii::$app->response->sendFile($path, $fileEntry->fileURL);
+    	$title = trim($fileEntry->title) . "." . $fileEntry->fileExtension;
+    	return Yii::$app->response->sendFile($path, $title);
     	
     	
     }

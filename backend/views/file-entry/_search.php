@@ -23,15 +23,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'patient') ?>
 
-    <?= $form->field($model, 'fileURL') ?>
+    <?php // echo $form->field($model, 'fileURL') ?>
 
     <?php // echo $form->field($model, 'gifURL') ?>
 
     <?php // echo $form->field($model, 'fileExtension') ?>
 
     <?php // echo $form->field($model, 'fileSize') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
+    
+    <?= $form->field($model, 'description') ?>
+       
+	<?= $form->field($model, 'isPrivate')?>
 
     <?php // echo $form->field($model, 'content') ?>
 

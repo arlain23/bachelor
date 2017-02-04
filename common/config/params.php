@@ -1,11 +1,7 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
-    'supportEmail' => 'support@example.com',
+    'adminEmail' => 'aneta.andrzejewska94@gmail.com',
+    'supportEmail' => 'aneta.andrzejewska94@gmail.com',
     'user.passwordResetTokenExpire' => 3600,
-	'ftpHost' => 'ie.home.pl',
-	'ftpUsername' => 'aandrzejewska',
-	'ftpPassword' => 'ElEktronikA123',
-	'ftpTargetDirectory' => "/testFTP",
-	'ftpTargetPreviewDirectory' => "/testFTP",
+	'admin.passwordResetTokenExpire' => 3600,
 ];

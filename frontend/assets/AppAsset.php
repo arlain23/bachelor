@@ -33,4 +33,6 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
     	'rmrevin\yii\fontawesome\AssetBundle',
     ];
+    public $jsOptions = [
+    ];
 }

@@ -25,6 +25,11 @@
 	font-size: 35px;
 }
 
+#banner .control-button.selected{
+	text-decoration: underline;
+}
+
+
 #banner .subtitle{
     font-size: 3em;
     color: #47407a;
@@ -56,13 +61,34 @@ nav#w0 ul#w1 li{
 nav#w0 ul#w1 li a{
 	color: #e4e1db;
 }
-nav#w0 ul#w1 li:hover{
+nav#w0 ul#w1 li:hover, nav#w0 ul#w1 li.active {
 	background-color: #e4e1db;
 }
-nav#w0 ul#w1 li:hover a{
-	color: #47407a;
-}
 
+
+nav#w0 ul#w1 li:hover a, nav#w0 ul#w1 li.active a{
+	color: #47407a  !important;
+}
+nav#w0 ul .li-logout{
+    position: absolute !important;
+    top: -1px;
+    right: 5px;
+}
+nav#w0 ul .li-logout form{
+    height: 100%;
+}
+nav#w0 ul .li-logout:hover .btn-logout{
+	text-decoration: underline;
+}
+nav#w0 ul .li-logout:hover{
+	background-color: inherit  !important;
+}
+nav#w0 ul .btn-logout{
+	padding: 10px 15px;
+    color: #e4e1db;
+    font-size: 0.8em;
+    margin-top: 8px;
+}
 
 
 .nav > li > a:hover, .nav > li > a:focus{
@@ -109,8 +135,31 @@ nav#w0 ul#w1 li:hover a{
 .footer .powered-by .yii a:hover{
 	color: #47407a;
 }
+/*home page */
 
 
+.site-index .project-title{
+    font-size: 2.5em;
+    color: #47407a;
+    text-shadow: 2px 2px #e4e1db;
+    font-weight: 600;
+    font-family: lato-black;
+}
+
+.site-index  .sub-title{
+    font-size: 1.5em;
+    color: #47407a;
+    text-transform: uppercase;
+    font-weight: 600;   
+}
+
+.site-index .project-description{
+	font-size: 1.2em;
+	text-align: justify;
+}
+.site-index .research-link{
+    margin: 70px;
+}
 /*contrast */
 
 body.contrast {
@@ -130,13 +179,12 @@ body.contrast nav#w0{
 body.contrast nav#w0 ul#w1 li a{
 	color: white;
 }
-body.contrast nav#w0 ul#w1 li:hover{
-	background-color: white;
+body.contrast nav#w0 ul#w1 li:hover, body.contrast nav#w0 ul#w1 li.active{
+	background-color: white !important;
 }
-body.contrast nav#w0 ul#w1 li:hover a{
-	color: black;
+body.contrast nav#w0 ul#w1 li:hover a, body.contrast nav#w0 ul#w1 li.active a{
+	color: black !important;
 }
-
 body.contrast .footer{
     background-color: black;
     border-top: 2px solid white;
@@ -145,6 +193,9 @@ body.contrast .footer{
 body.contrast p, body.contrast a, body.contrast, body.contrast .file-details .icon-download:before{
 	color: white;
 	
+}
+body.contrast .site-database .database-list-view .file-title a{
+	color: white;
 }
 
 body.contrast .file-title{
@@ -156,10 +207,32 @@ body.contrast .file-image-placeholder{
 }
 
 body.contrast .btn-primary, body.contrast .papaya-main-increment, body.contrast .papaya-main-decrement,
-body.contrast .papaya-main-swap, body.contrast .papaya-main-goto-center, body.contrast .papaya-main-goto-origin,  body.contrast .form-control{
+body.contrast .papaya-main-swap, body.contrast .papaya-main-goto-center, body.contrast .papaya-main-goto-origin,  
+body.contrast .form-control, body.contrast .database-sort{
     color: white;
     background-color: black;
     border-color: white;
+}
+body.contrast .site-database .sort-form .sort-options input[type=radio]:checked ~ label{
+	color: white;
+}
+body.contrast  .site-database .sort-form .sort-options input[type=radio]:checked ~ .check::before{
+	background-color: white;
+}
+body.contrast .site-database .sort-form .sort-options input[type=radio]:checked ~ .check,
+body.contrast  .site-database .sort-form .sort-options ul li .check{
+	border-color: white;
+}
+body.contrast .site-database .sort-form .sort-options ul li:hover label{
+	color: white;
+	font-weight: 600;
+}
+body.contrast .site-database .sort-form .sort-direction input[type=radio]:checked ~ label,
+body.contrast .site-database .view-icons i.selected{
+	color: white;
+}
+body.contrast .site-database .view-icons i:hover{
+	color: white;
 }
 body.contrast .breadcrumb{
 	color: white;
@@ -168,6 +241,14 @@ body.contrast .breadcrumb{
 }
 body.contrast .breadcrumb .active{
 	color: white;
+}
+body.contrast .site-database .pick-all-btn{
+		color: white;
+    background-color: black;
+    border: 2px solid white;
+}
+body.contrast #niftiHeader{
+	border-color: white;
 }
 
 
@@ -219,6 +300,10 @@ body.contrast .pagination > .disabled > span:hover{
 }
 body.contrast .site-database .download-checkbox input[type="checkbox"]{
 	border-color: white;
+	background-color: black;
+}
+body.contrast  .site-database .download-checkbox input[type="checkbox"]:checked:after{
+	color: white;
 }
 body.contrast .site-database .database-ul{
 	border-top-color: white;
@@ -228,7 +313,10 @@ body.contrast  .site-database .filter-column, body.contrast .site-database .data
     border: 5px solid white;
     background-color: black;
 }
-
+body.contrast .papaya-container{
+	border: 5px solid white;
+    padding: 5px;
+}
 
 body.contrast .search-icon{
 	color:white;
@@ -301,4 +389,14 @@ body.contrast .Zebra_DatePicker .dp_daypicker td, body.contrast .Zebra_DatePicke
 }
 body.contrast .Zebra_DatePicker .dp_disabled{
 	text-decoration: line-through;
+}
+body.contrast .project-title{
+	color: white;
+    text-shadow: none;
+}
+body.contrast .sub-title{
+	color: white;
+}
+body.contrast #targetFrame{
+	border-color:white;
 }

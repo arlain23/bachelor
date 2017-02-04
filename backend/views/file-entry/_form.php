@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use common\models\FileCategory;
+use common\models\FileEntryCategory;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\FileEntry */
@@ -26,17 +27,46 @@ use common\models\FileCategory;
         'preset' => 'basic'
     ]) ?>
     
+    <?php 
+    	$selectedFileCategories = FileEntryCategory::find()->andFilterWhere(["fileEntryID"=>$model->fileEntryId])->all();
+    	$categoryIdsArray = array();
+    	$categoryString = "";
+    	$index = 0;
+    	foreach ($selectedFileCategories as &$fc){
+    		$categoryIdsArray[$index] = $fc->categoryID;
+    		$categoryString = $categoryString . "," . $fc->categoryID;
+    		$index += 1;
+    	}
+    ?>
     <select multiple="multiple" id="fileentry-categories-select">
+    
     	 	<?php 
 			$fileCategories = FileCategory::find()->all();   
     	 	foreach ($fileCategories as &$value ){
-    	 		?>
-    	 			<option value="<?= $value->categoryID ?>"><?=$value->categoryName?></option>	 		
+    	 		if (in_array($value->categoryID, $categoryIdsArray)) {
+    	 			?>
+    	 			<option value="<?= $value->categoryID ?>" selected="selected"><?=$value->categoryName?></option>	 	
+    	 		
     	 		<?php 
+    	 		}
+    	 		else{ ?>
+    	 			<option value="<?= $value->categoryID ?>"><?=$value->categoryName?></option>
+    	 		<?php 
+    	 		}
     	 	}	 
     	 ?>  	
     </select>
     
+   	<div class="slider-container-fileentry">
+	        <?= $form->field($model, 'isPrivate')->hiddenInput()->label(false) ?> 
+		    <div class="slider-text slider-text-before">public</div>
+			<label class="switch">
+			  <input type="checkbox">
+		  	  <div class="slider round"></div>
+			</label>
+		  	<div class="slider-text slider-text-after">private</div>
+	</div>
+	    
     <?= $form->field($model, 'createDate')->textInput(['readonly' => true]) ?>
         
     <?= $form->field($model, 'fileURL')->textarea(['rows' => 1,'readonly' => true]) ?>
@@ -48,7 +78,8 @@ use common\models\FileCategory;
     <?= $form->field($model, 'fileSize')->textInput(['readonly' => true]) ?>
     
     
-    <?= $form->field($model, 'categories')->hiddenInput(['value'=>0])->label(false) ?>  
+    
+    <?= $form->field($model, 'categories')->hiddenInput(['value'=>$categoryString])->label(false) ?>  
     
 
     <div class="form-group">

@@ -14,6 +14,7 @@ use Yii;
  * @property string $gifURL
  * @property string $fileExtension
  * @property double $fileSize
+ * @property integer $isPrivate
  * @property string $description
  * @property string $content
  */
@@ -34,10 +35,12 @@ class FileEntry extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-				[['title', 'createDate', 'patient', 'fileURL', 'fileExtension', 'fileSize', 'description','categories'], 'required'],
-				[['createDate'], 'safe'],
+				[['title', 'createDate', 'fileURL', 'fileExtension', 'fileSize'], 'required'],
+				[['createDate','categories'], 'safe'],
 				[['fileURL', 'gifURL', 'description', 'content'], 'string'],
 				[['title', 'patient'], 'string', 'max' => 75],
+				[['isPrivate'], 'integer'],
+				[['fileSize'], 'number'],
 				[['fileExtension'], 'string', 'max' => 10],
 		];
 	}
@@ -56,6 +59,7 @@ class FileEntry extends \yii\db\ActiveRecord
 				'gifURL' => 'Gif Url',
 				'fileExtension' => 'File Extension',
 				'fileSize' => 'File Size',
+				'isPrivate' => 'Is private',
 				'description' => 'Description',
 				'content' => 'Content',
 		];

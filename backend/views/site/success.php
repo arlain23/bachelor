@@ -1,3 +1,10 @@
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <?php
+/* @var $this yii\web\View */
+
+
 ?>
-You have succesfully uploaded a file onto the server 
+<p class="upload-message-success">
+	You have succesfully uploaded your files onto the server 
+</p>
+<?php 

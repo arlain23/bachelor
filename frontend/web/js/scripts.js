@@ -1,10 +1,5 @@
 $(function(){
 	$("img.lazy").lazyload();
-	$('.site-database .dotdotdot').dotdotdot({
-	    height    : 210,
-	    watch: "window"
-	  });
-	
 	/*cookie control */
 	
 	var fontsize = $.cookie("fontsize");
@@ -25,6 +20,7 @@ $(function(){
 })
 
 $('#toggle-contrast').click(function() {
+	console.log("asdasd");
 	$("body").toggleClass("contrast");
 	var contrastCookie =  $.cookie('contrast-mode');
 	if (contrastCookie == 0) contrastCookie = 1;
@@ -59,7 +55,6 @@ $(function(){
 	  pair: $('.site-database .filter-column .publishDateTill'),
 	});
 	$('.site-database .filter-column .publishDateTill').Zebra_DatePicker({
-	  direction: 1,
 	});
 	
 	
@@ -68,13 +63,75 @@ $(function(){
 	     loopOptions: true,
 	     hideOnWindowScroll: false, 
 	 });
-	 $('.site-database .filter-column select').selectBox('value', 0);
 	 
 	 $('.site-database .filter-column select').selectBox().change(function () {
 		 $('.site-database .filter-column .select-categories-hidden').val($(this).val());
 	});
 	 
 }); 
+
+
+
+//view mode
+$(function(){
+	var viewmode = $.cookie("viewmode");
+	if (viewmode === undefined) {
+		viewmode = "details-view";
+		$.cookie("viewmode", viewmode);
+	}
+	changeViewMode(viewmode);	
+});
+
+
+function changeViewMode(viewmode){
+	$.cookie("viewmode", viewmode);
+	checkCheckboxes(viewmode);
+	$(".site-database .database-ul").removeClass("visible");
+	$(".site-database .database-"+viewmode).addClass("visible");
+	
+	$(".site-database .view-icons i").removeClass("selected");
+	$('.site-database .view-icons .view-icon-' + viewmode).addClass("selected");
+}
+
+
+$('.site-database .view-icons .view-icon-details-view').click(function() {
+	if (! $(this).hasClass("selected")){
+		changeViewMode('details-view');
+	}
+});
+
+$('.site-database .view-icons .view-icon-list-view').click(function() {
+	if (! $(this).hasClass("selected")){
+		changeViewMode('list-view');
+	}
+});
+
+
+
+function checkCheckboxes(viewmode){
+	$('.database-ul.visible input:checkbox:checked').each(function () {
+		var value = $(this).val();
+		console.log("ckeched " + value);
+		$(".site-database .database-"+viewmode+ " input:checkbox[value=" + value + "]").prop("checked","true");
+	});
+	$('.database-ul.visible input:checkbox').removeAttr('checked');
+
+}
+
+
+
+$('.site-database .pick-all-btn').click(function() {
+	$(this).toggleClass("pick-all-toggled");
+	if ($(this).hasClass("pick-all-toggled")){
+		$('.database-ul.visible input:checkbox').prop("checked","true");
+	}
+	else {
+		$('.database-ul.visible input:checkbox').removeAttr('checked');
+	}
+
+});
+
+
 
 
 

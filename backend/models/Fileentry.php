@@ -33,6 +33,7 @@ class Fileentry extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
     public function rules()
     {
         return [
@@ -42,6 +43,7 @@ class Fileentry extends \yii\db\ActiveRecord
             [['fileSize'], 'number'],
             [['title', 'patient'], 'string', 'max' => 75],
             [['fileExtension'], 'string', 'max' => 10],
+        	
         ];
     }
 

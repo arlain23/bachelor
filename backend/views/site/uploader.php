@@ -8,10 +8,15 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use common\models\FileCategory;
+use kartik\switchinput\SwitchInput;
 
 ?>
-   
-
+<script>
+	inicialiseControllerPath("<?= \Yii::$app->getUrlManager()->createUrl('site/ajax') ?>");
+</script>
+<div class="switch-view-button">
+   	<?= Html::a('Upload multiple files', ['multiple-uploader'], ['class' => 'btn btn-primary']) ?>				    		
+</div>
 <div class="ftp">
 	
 	<?php 
@@ -33,8 +38,8 @@ use common\models\FileCategory;
         'options' => ['rows' => 6],
         'preset' => 'basic'
     ]) ?>
-    
-    	<select multiple="multiple" id="fileform-categories-select">
+    <div class="col-md-6 col-sm-6 col-xs-6">
+       	<select multiple="multiple" id="fileform-categories-select">
     	 	<?php 
 			$fileCategories = FileCategory::find()->all();   
     	 	foreach ($fileCategories as &$value ){
@@ -46,18 +51,31 @@ use common\models\FileCategory;
     	</select>
     	
 
-    <?= $form->field($model, 'file')->fileInput()->label('File to upload') ?>
-    <?= $form->field($model, 'preview')->fileInput()->label('GIF to upload') ?>
-    
-    <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
-    <?= $form->field($model, 'categories')->hiddenInput(['value'=>0])->label(false) ?>  
-    
-
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Send file', ['class' => 'btn btn-primary']) ?>
-        </div>
-    </div>
+	    <?= $form->field($model, 'file')->fileInput()->label('File to upload') ?>
+	    <?= $form->field($model, 'gifUniqueId')->hiddenInput(['value'=>0])->label(false) ?> 
+	    <div class="slider-container">
+	        <?= $form->field($model, 'isPrivate')->hiddenInput(['value'=>0])->label(false) ?> 
+		    <div class="slider-text slider-text-before">public</div>
+			<label class="switch">
+			  <input type="checkbox">
+		  	  <div class="slider round"></div>
+			</label>
+		  	<div class="slider-text slider-text-after">private</div>
+	    </div>
+	    
+	    <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+	    <?= $form->field($model, 'categories')->hiddenInput(['value'=>0])->label(false) ?>  
+	    
+	    <div class="form-group">
+	        <div class="col-md-12 submit-button">
+	            <?= Html::submitButton('Send file', ['class' => 'btn btn-primary']) ?>
+	        </div>
+	    </div>
+	</div>
+	<div class="col-md-6 col-sm-6 col-xs-6">
+		<div id="logger"> </div>
+		<canvas id="mipCanvas" width="256" height="256"></canvas>
+	</div>
 </div>
 
 <?php ActiveForm::end() ?>

@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'gifURL:ntext',
             'fileExtension',
             'fileSize',
+        	'isPrivate',
             'description:ntext',
             'content:ntext',
         ],

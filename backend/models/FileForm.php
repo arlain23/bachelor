@@ -14,19 +14,21 @@ class FileForm extends \yii\base\Model
 	public $extension;
 	public $remoteUrl;
 	public $remotePreviewUrl;
+	public $gifUniqueId;
 	public $content;
 	public $categories;
 	public $size;
+	public $isPrivate;
 
 	
 	public function rules()
 	{
 		return [
 				// define validation rules here
-				[['title', 'description','patient','content','categories'], 'required'],
-				[['file'], 'file', 'skipOnEmpty' => false, 'checkExtensionByMimeType'=>false, 'extensions' => 'nii, npy, vtk'],
-				[['preview'], 'file','extensions' => 'png, jpg, bmp, gif'],
+				[['title', 'description','patient','content','categories','isPrivate','gifUniqueId'], 'required'],
+				[['file'], 'file', 'skipOnEmpty' => false, 'checkExtensionByMimeType'=>false],
 				[['title','patient'],'validateLength'],
+				
 		];
 	}
 	
@@ -41,6 +43,10 @@ class FileForm extends \yii\base\Model
 	{
 		if ($this->validate()) {
 			$this->extension = $this->file->extension;
+			if ($this->extension == 'gz' && substr($this->file->baseName, -3) == 'nii'){
+				$this->extension = 'nii.gz';
+				
+			}
 			$tmpsize =$this->file->size / 1024.0 / 1024.0;
 			$this->size = round($tmpsize,3);
 			
@@ -68,10 +74,11 @@ class FileForm extends \yii\base\Model
 			$ftp->close();*/
 			
 			/* upload files via HTTP */
-			$this->remoteUrl = $this->file->baseName . "." . $this->file->extension;
+			$this->remoteUrl = time() . $this->file->baseName . "."  . $this->file->extension ;
 			$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $this->remoteUrl;
 			$this->file->saveAs($path);
 			
+			/*
 			if ($this->preview != '' && $this->preview != null ){
 				$this->remotePreviewUrl = $this->preview->baseName . "." . $this->preview->extension;
 				$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $this->remotePreviewUrl;
@@ -80,8 +87,52 @@ class FileForm extends \yii\base\Model
 			else{
 				$this->remotePreviewUrl = "";
 			}
+			*/
 			
+			//save gif
+			$gifUniqueIdArray = preg_split("/,/", $this->gifUniqueId);
+			if ($this->file->extension == 'nii' || $this->file->extension == 'nii.gz'){
+				$directory = Yii::getAlias('@frontend') . '/web/images/uploads/' . $gifUniqueIdArray[0];
+				Yii::info($directory);
+				$frames = array();
+				$durations = array ();
+				foreach(glob($directory.'/*.*') as $image)					{
+					Yii::info("image pushed " . $image);
+					array_push($frames, $image);
+					array_push($durations, 20);
+				}
+				if (count($frames) > 0){
+					// Initialize and create the GIF
+					$gc = new \GifCreator\GifCreator();
+					$gc->create($frames, $durations, 0);
 				
+					$gifBinary = $gc->getGif();
+					Yii::info($gifBinary);
+					$this->remotePreviewUrl = 'gifs/' . time() . $this->file->baseName . '.gif';
+					$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $this->remotePreviewUrl;
+					file_put_contents($path, $gifBinary);
+					Yii::info("gif created " . $path);
+						
+						
+					if (is_dir($directory)) {
+						$objects = scandir($directory);
+						foreach ($objects as $object) {
+							if ($object != "." && $object != "..") {
+								if (filetype($directory."/".$object) == "dir") rrmdir($directory."/".$object); else unlink($directory."/".$object);
+							}
+						}
+						reset($objects);
+						rmdir($directory);
+					}
+				}
+				else{
+					$this->remotePreviewUrl = null;
+				}
+			}
+			else{
+				$this->remotePreviewUrl = null;
+			}
+		
 			return true;
 		} else {
 			return false;
