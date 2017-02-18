@@ -91,17 +91,17 @@ if (!($isGuest && $isPrivate)){
 	<?php 
 	if ($isVTK){ ?>
 	
-	<div class="frame-wrapper">
-		<iframe id="targetFrame" src ="vtk.htm" scrolling="no">
-		</iframe>
-	</div>	
-	<script>
-	window.onload = function() {
-	document.getElementById('targetFrame').contentDocument.defaultView.showMesh("<?= '/images/uploads/' . $fileEntry->fileURL ?>");
-	}
-		//var el = document.getElementById('targetFrame');
-		//getIframeWindow(el).defaultView.showMesh("<?= '/images/uploads/' . $fileEntry->fileURL ?>");/*
-	</script>
+		<div class="frame-wrapper">
+			<iframe id="targetFrame" src ="vtk.htm" scrolling="no">
+			</iframe>
+		</div>	
+		<script>
+		window.onload = function() {
+		document.getElementById('targetFrame').contentDocument.defaultView.showMesh("<?= '/images/uploads/' . $fileEntry->fileURL ?>");
+		}
+			//var el = document.getElementById('targetFrame');
+			//getIframeWindow(el).defaultView.showMesh("<?= '/images/uploads/' . $fileEntry->fileURL ?>");/*
+		</script>
 	<?php }
 }
 else {

@@ -9,8 +9,24 @@ use common\models\FileEntryCategory;
 /* @var $model common\models\FileEntry */
 /* @var $form yii\widgets\ActiveForm */
 
-/* TODO maybe: take existing fileEntryCategories and put them on the right sight of the form */
+
+/* decide whether to show geometry or not */
+$isVTK = false;
+$acceptedFormats = [
+		"stl",
+		"vtk",
+];
+if (in_array($model->fileExtension, $acceptedFormats)) {
+	$isVTK = true;
+};
+
+
 ?>
+
+<script>
+	inicialiseControllerPath("<?= \Yii::$app->getUrlManager()->createUrl('file-entry/gajax') ?>");
+	inicialiseImagePath("<?= 'geometry/' . time() . $model->title . '.png' ?>");
+</script>
 
 <div class="file-entry-form">
 
@@ -66,22 +82,47 @@ use common\models\FileEntryCategory;
 			</label>
 		  	<div class="slider-text slider-text-after">private</div>
 	</div>
+	<div class="row">
+		<div class="col-md-6 col-sm-6 col-xs-6">
+		    <?= $form->field($model, 'createDate')->textInput(['readonly' => true]) ?>
+		        
+		    <?= $form->field($model, 'fileURL')->textarea(['rows' => 1,'readonly' => true]) ?>
+		
+		    <?= $form->field($model, 'gifURL')->textarea(['rows' => 1,'readonly' => true]) ?>
+		
+		    <?= $form->field($model, 'fileExtension')->textInput(['maxlength' => true,'readonly' => true]) ?>
+		
+		    <?= $form->field($model, 'fileSize')->textInput(['readonly' => true]) ?>
+		      
+		    <?= $form->field($model, 'categories')->hiddenInput(['value'=>$categoryString])->label(false) ?>  
 	    
-    <?= $form->field($model, 'createDate')->textInput(['readonly' => true]) ?>
-        
-    <?= $form->field($model, 'fileURL')->textarea(['rows' => 1,'readonly' => true]) ?>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-6">
+			<?php 
+				if ($isVTK){ ?>
+					<div class="frame-wrapper">
+						<iframe id="targetFrame" src ="vtkGeo.php" scrolling="no" >
+						</iframe>
+					</div>
+					<div class="row">
+						<div class="col-md-3 col-sm-3 col-xs-3">
+							<p id="logger" class="text-muted"> </p>
+						</div>
+						<div class="uri-button col-md-9 col-sm-9 col-xs-9">
+							<?= Html::button("set preview",['class' =>'btn btn-primary']) ?>
+						</div>
+					</div>	
 
-    <?= $form->field($model, 'gifURL')->textarea(['rows' => 1,'readonly' => true]) ?>
-
-    <?= $form->field($model, 'fileExtension')->textInput(['maxlength' => true,'readonly' => true]) ?>
-
-    <?= $form->field($model, 'fileSize')->textInput(['readonly' => true]) ?>
-    
-    
-    
-    <?= $form->field($model, 'categories')->hiddenInput(['value'=>$categoryString])->label(false) ?>  
-    
-
+					<script>
+						window.onload = function() {
+							document.getElementById('targetFrame').contentDocument.defaultView.showMesh("<?=  'http://frontend.dev//images/uploads/' . $model->fileURL ?>");
+						}
+					</script>
+				<?php }
+			?>
+		
+		</div>
+	</div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

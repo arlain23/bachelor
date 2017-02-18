@@ -25,14 +25,16 @@
 #myNav nav ul li a{
 	color: #e4e1db;
 }
-nav#w0 ul#w1 li:hover, nav#w0 ul#w1 li.active {
+nav ul li:hover, nav ul li.active {
 	background-color: #e4e1db;
 }
 
 
-nav#w0 ul#w1 li:hover a, nav#w0 ul#w1 li.active a{
+nav ul li:hover a, nav ul li.active a{
 	color: #47407a  !important;
 }
+
+
 
 
 #myNav nav > li > a:hover, .nav > li > a:focus{
@@ -52,7 +54,7 @@ nav ul .li-logout:hover .btn-logout{
 	text-decoration: underline;
 }
 #myNav nav ul .li-logout:hover{
-	background-color: inherit;
+	background-color: inherit !important;
 }
 #myNav nav ul .btn-logout{
     color: #e4e1db;
@@ -167,3 +169,17 @@ input:checked + .slider:before {
 .breadcrumb a {
 color: #47407a;
 }
+
+
+/*geometry */
+
+#targetFrame {
+    width: 256px;
+    height: 256px;
+    border: 2px solid #47407a;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+	background: inherit;
+}
+

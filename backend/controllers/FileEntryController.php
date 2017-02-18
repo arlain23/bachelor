@@ -31,7 +31,7 @@ class FileEntryController extends Controller
 										'allow' => true,
 								],
 								[
-										'actions' => ['index','view','update','delete'],
+										'actions' => ['index','view','update','delete','gajax'],
 										'allow' => true,
 										'roles' => ['@'],
 								],
@@ -42,6 +42,13 @@ class FileEntryController extends Controller
 						'class' => VerbFilter::className(),
 						'actions' => [
 								'delete' => ['POST'],
+						],
+				],
+				'corsFilter' => [
+						'class' => \yii\filters\Cors::className(),
+						'cors' => [
+								'Access-Control-Allow-Origin' => ['http://backend.dev/, http://frontend.dev/'],
+				
 						],
 				],
 		];
@@ -78,6 +85,7 @@ class FileEntryController extends Controller
 	 * Updates an existing FileEntry model.
 	 * Adds new entries in FileEntryCategory if needed.
 	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * deletes existing image under gifURL
 	 * @param integer $id
 	 * @return mixed
 	 */
@@ -85,25 +93,33 @@ class FileEntryController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			
-			Yii::info($model->categories);
-			$cateogriesArray = \preg_split("/[\s,]+/",$model->categories);
+		if ($model->load(Yii::$app->request->post())) {
 			$fileID = $model->fileEntryId;
-			$fileEntries = FileEntryCategory::find()->where(["fileEntryID"=>$fileID])->all();
-			foreach ($fileEntries as &$fe){
-				$fe->delete();
+			$oldFE = FileEntry::find()->where(["fileEntryID"=>$fileID])->one();
+			if ($oldFE->gifURL != $model->gifURL && $oldFE->gifURL != ""){
+				$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $oldFE->gifURL;
+				unlink($path);
 			}
 			
-			foreach ($cateogriesArray as &$catId){
-				if ($catId !== " " && $catId !== "" && $catId != 0){
-					$fileEntryFileCategory = new FileEntryCategory();
-					$fileEntryFileCategory->categoryID = $catId;
-					$fileEntryFileCategory->fileEntryID = $fileID;
-					$fileEntryFileCategory->save();
+			
+			if($model->save()){
+				Yii::info($model->categories);
+				$cateogriesArray = \preg_split("/[\s,]+/",$model->categories);
+				$fileID = $model->fileEntryId;
+				$fileEntries = FileEntryCategory::find()->where(["fileEntryID"=>$fileID])->all();
+				foreach ($fileEntries as &$fe){
+					$fe->delete();
+				}
+				
+				foreach ($cateogriesArray as &$catId){
+					if ($catId !== " " && $catId !== "" && $catId != 0){
+						$fileEntryFileCategory = new FileEntryCategory();
+						$fileEntryFileCategory->categoryID = $catId;
+						$fileEntryFileCategory->fileEntryID = $fileID;
+						$fileEntryFileCategory->save();
+					}
 				}
 			}
-			
 			return $this->redirect(['view', 'id' => $model->fileEntryId]);
 		} else {
 			return $this->render('update', [
@@ -156,6 +172,26 @@ class FileEntryController extends Controller
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
+	
+	public function actionGajax()
+	{
+		if (Yii::$app->request->isPost){
+			if (isset($_POST['imgBase64'])){
+				$base64Data = $_POST['imgBase64'];
+				$filePath =  $_POST['filePath'];
+				 
+				$data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
+				$path = Yii::getAlias('@frontend') . '/web/images/uploads/' . $filePath;
+				 
+				file_put_contents($path, $data);
+				$test = "Ajax succedded";
+			}
+			else{
+				$test = "Ajax failed";
+			}
+			return \yii\helpers\Json::encode($test);
 		}
 	}
 }

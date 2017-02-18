@@ -25,7 +25,7 @@ class FileForm extends \yii\base\Model
 	{
 		return [
 				// define validation rules here
-				[['title', 'description','patient','content','categories','isPrivate','gifUniqueId'], 'required'],
+				[['title','categories','isPrivate','gifUniqueId'], 'required'],
 				[['file'], 'file', 'skipOnEmpty' => false, 'checkExtensionByMimeType'=>false],
 				[['title','patient'],'validateLength'],
 				

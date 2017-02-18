@@ -1,3 +1,5 @@
+<?php ?>
+
 <html>
 	<body style="background-color: #e4e1db">
 		<script type="text/javascript" src ="js/xtk.js"></script>
@@ -23,9 +25,9 @@
 			  
 			  
 			}
-		
-		
-		
+		window.getDataURI = function(){
+			return document.getElementsByTagName("canvas")[0].toDataURL();
+		}
 		</script>
 	</body>
 </html>

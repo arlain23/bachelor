@@ -1,3 +1,14 @@
+<?php
+
+header("Access-Control-Allow-Origin: http://backend.dev/");
+header("Access-Control-Allow-Origin: http://frontend.dev/");
+
+header('Access-Control-Allow-Origin: *');
+
+
+?>
+
+
 <html>
 	<body style="background-color: #e4e1db">
 		<script type="text/javascript" src ="js/xtk.js"></script>
@@ -13,19 +24,15 @@
 			  theMesh.file = fileName;	
 			  
 			  r.add(theMesh);		  
-			  r.onShowtime = function() {
-				  console.log(r.camera.view)
-				  console.log(theMesh.filedata);
-			  }
 			  // re-position the camera to face the skull
 			  r.camera.position = [0, 400, 0];	  
 			  r.render();	
 			  
 			  
 			}
-		
-		
-		
+		window.getDataURI = function(){
+			return document.getElementsByTagName("canvas")[0].toDataURL();
+		}
 		</script>
 	</body>
 </html>

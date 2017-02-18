@@ -1,3 +1,14 @@
+var theControllerURL;
+var imagePath;
+function inicialiseControllerPath(controllerURL){
+	theControllerURL = controllerURL;
+};
+
+function inicialiseImagePath(path){
+	imagePath = path;
+}
+
+
 $(function() {
 	$('#fileform-categories-select').multiSelect({ 
 		keepOrder: true,
@@ -68,6 +79,25 @@ $(function() {
 		else{
 			$('#fileentry-isprivate').val(0);
 		}
+	});
+	
+	
+	//geometry
+	$('.uri-button').on('click',function(){
+		$('#logger').text("please wait")
+		dataURL = document.getElementById('targetFrame').contentDocument.defaultView.getDataURI();
+		$.ajax({
+	    	  type: "POST",
+	    	  url: theControllerURL,
+	    	  async: false,
+	    	  data: { 
+	    	     imgBase64: dataURL,
+	    	     filePath: imagePath,
+	    	  }
+	    	}).done(function(o) {
+	    		$('#fileentry-gifurl').val(imagePath);
+	    		$('#logger').text("preview is done")
+	    	});  
 	});
 	
 });

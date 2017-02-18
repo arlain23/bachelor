@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     	'js/scripts.js',
     	'js/jquery.multi-select.js',
     	'js/mip-maker.js',
+    	'js/xtk.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

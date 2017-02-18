@@ -2,7 +2,10 @@ var theControllerURL;
 var uniqueID;
 var uniqueIDString = "";
 
-
+/*
+ * function inicialiseControllerPath 
+ * set controller url needed for ajax request 
+ */
 function inicialiseControllerPath(controllerURL){
 	theControllerURL = controllerURL;
 };
@@ -15,7 +18,7 @@ $(function(){
 	  if ( $('#multiplefileform-files').length ) { 
 		  document.getElementById('multiplefileform-files').addEventListener('change', handleFileSelect, false);
 	  }
-	  if ( $('#fileform-file').length ) {  		  
+	  if ( $('#fileform-file').length ) {
 		  document.getElementById('fileform-file').addEventListener('change', handleFileSelect, false);
 	  }
 });
@@ -25,11 +28,10 @@ $(function(){
  * calls readFle for each file 
  */
 function handleFileSelect(evt) {
-    var files = evt.target.files;   
+    var files = evt.target.files; 
 	for (i = 0; i < files.length; i++) { 
 		readFile(files[i]);
 		console.log("handleFileSelect: data read")
-
 	}
 }
 
@@ -357,7 +359,10 @@ function zeros(dimensions) {
     return array;
 }
 
-
+/*
+ * function makeid used to create a random string of characters with length of 5
+ * needed to create a folder with unique name
+ */
 
 function makeid()
 {
@@ -369,7 +374,6 @@ function makeid()
 
     return text;
 }
-
 
 
 // not used but maybe needed later
