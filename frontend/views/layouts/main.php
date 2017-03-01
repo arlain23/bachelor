@@ -110,7 +110,7 @@ AppAsset::register($this);
     		</a>
     	</div>
     	<div class="col-md-7 col-sm-7 col-xs-12 powered-by">
-    		<span class="copyright">&copy; Aneta Andrzejewska <?= date('Y') ?></span>
+    		<span class="copyright">Aneta Andrzejewska <?= date('Y') ?></span>
         	<span  class="yii"><?= Yii::powered() ?></span>
     	</div>
 

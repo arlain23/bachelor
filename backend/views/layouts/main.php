@@ -77,7 +77,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-    		<p class="pull-left copyright">&copy; Aneta Andrzejewska <?= date('Y') ?></p>
+    		<p class="pull-left copyright">Aneta Andrzejewska <?= date('Y') ?></p>
         	<p  class="pull-right yii"><?= Yii::powered() ?></p>
     </div>
 </footer>
